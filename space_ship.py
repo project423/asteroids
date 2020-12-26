@@ -14,27 +14,31 @@ class Spaceship(Turtle):
         self.shapesize(2,2)
 
     def up(self):
-        if self.ycor() < 300:
-            self.setheading(UP)
-            self.forward(20)
+        self.setheading(UP)
+        self.forward(20)
+        if self.ycor() > 300:
+            self.goto(self.xcor(), -300)
             
 
     def down(self):
-        if self.ycor() > -300:
-            self.setheading(DOWN)
-            self.forward(20)
-            
+        self.setheading(DOWN)
+        self.forward(20)
+        if self.ycor() < -300:
+            self.goto(self.xcor(), 300)            
         
 
     def left(self):
-        if self.xcor() > -380:
-            self.setheading(LEFT)
-            self.forward(20)
-            
+        self.setheading(LEFT)
+        self.forward(20)
+        if self.xcor() < -380:
+            self.goto(380, self.ycor())            
         
 
-    def right(self):        
-        if self.xcor() < 380:
-            self.setheading(RIGHT)
-            self.forward(20)
+    def right(self):
+        self.setheading(RIGHT)
+        self.forward(20)
+        if self.xcor() > 380:
+            self.goto(-380, self.ycor())
+
+    
         
