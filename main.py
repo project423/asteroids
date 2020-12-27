@@ -11,6 +11,8 @@ DOWN = 270.0
 LEFT = 180.0
 RIGHT = 0.0
 
+BULLET_SPEED = 10
+
 # Screen Setup
 screen = Screen()
 screen.setup(width = 800, height = 600)
@@ -33,39 +35,26 @@ scoreboard = Scoreboard()
 #Create the player's bullet
 
 bullet = Bullet()
-# bullet.color("white")
-# bullet.shape("triangle")
-# bullet.penup()
-# bullet.speed(0)
-# bullet.setheading(90)
-# bullet.shapesize(0.5, 0.5)
-# bullet.hideturtle()
-
-bulletspeed = 2
 
 
-#Dfine bullet state
-# read - ready to fire
-
-#fire - bullet is firing
-bulletstate = "ready"
+bullet_is_ready = True
+direction = spaceship.heading()
 
 def fire_bullet():
-    #declare bulletstate as a global if it needs changing
-    global bulletstate
-    if bulletstate == "ready":
-        bulletstate = "fire"
+    #declare bullet_is_ready and direaction  as a global incase it needs changing
+    global direction, bullet_is_ready      
+    if bullet_is_ready:
+        bullet_is_ready = False
+        direction = spaceship.heading()
         #Move the bullet to be just above the player
         x = spaceship.xcor()
         y = spaceship.ycor()
-        print(bullet.xcor(),bullet.ycor())
         bullet.setheading(spaceship.heading())
         bullet.setposition(x,y)
         bullet.showturtle()
-
-
-
+        
     
+ 
 
 #Create the keyboard bindings
 screen.listen()
@@ -88,35 +77,39 @@ while game_is_on:
     sleep(.01)
     screen.update()
     #Move the Asteroid
-    asteroid.move_asteroid()
-
+    asteroid.move_asteroid()  
+    
     #Move the Bullet
-    if bulletstate == "fire":
-        if spaceship.heading() == UP:
+    if not bullet_is_ready:
+        if direction == UP:
             y = bullet.ycor()
-            y +=bulletspeed
+            y += BULLET_SPEED
             bullet.sety(y)
-        elif spaceship.heading() == DOWN:
+            
+        
+        if direction == DOWN:
             y = bullet.ycor()
-            y -=bulletspeed
+            y -= BULLET_SPEED
             bullet.sety(y)
-        elif spaceship.heading() == LEFT:
+        
+        if direction == LEFT:
             x = bullet.xcor()
-            x -=bulletspeed
+            x -= BULLET_SPEED
             bullet.setx(x)
-        elif spaceship.heading() == RIGHT:
+        
+        if direction == RIGHT:
             x = bullet.xcor()
-            x +=bulletspeed
+            x += BULLET_SPEED
             bullet.setx(x)
 
     # Check to see if the bullet has reached the top 
     if bullet.ycor() > 280 or bullet.ycor() < -280:
         bullet.hideturtle()
-        bulletstate = "ready"
+        bullet_is_ready = True
     
     if bullet.xcor() > 380 or bullet.xcor() < -380:
         bullet.hideturtle()
-        bulletstate = "ready"  
+        bullet_is_ready = True  
     
     
 
@@ -130,10 +123,10 @@ while game_is_on:
     if asteroid.xcor() > 380 or asteroid.xcor() < -380:
         asteroid.bounce_x()
 
-    #Detect Collision with Spaceship and Asteroid
-    # if spaceship.distance(asteroid) < 40:
-    #     print("COLLISION")
-    #     game_is_on = False
+    # Detect Collision with Spaceship and Asteroid
+    if spaceship.distance(asteroid) < 40:
+        print("COLLISION")
+        game_is_on = False
 
 
    
