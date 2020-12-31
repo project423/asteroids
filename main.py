@@ -65,12 +65,23 @@ screen.onkey(fire_bullet, 'space')
 #Game Logic
 game_is_on = True
 score = 0
+add_one_available = True
 while game_is_on:
 
     sleep(.01)
     screen.update()
     #Move the Asteroid  
-    asteroid.move_asteroids()  
+    asteroid.move_asteroids()
+   
+
+    if score > 2 and score % 3 == 0 and add_one_available:
+        for _ in range(3):
+            asteroid.add_one_asteroid()
+        add_one_available = False
+    elif score % 3 != 0:
+        add_one_available = True
+
+
     
     #Move the Bullet
     if not bullet_is_ready:
@@ -117,18 +128,17 @@ while game_is_on:
 
    
 
-    # Detect Collision with Spaceship and Asteroid
-    # asteroid.get_poistion()
     for a in asteroid.asteroids:
         
-        if spaceship.distance(a) < 30:
+        # Detect Collision with Spaceship and Asteroid
+        if spaceship.distance(a) < 35:
             print("COLLISION")
             # game_is_on = False
         # Detect Collision with Bullet and Asteroid
         if bullet.distance(a) < 30:
             bullet_is_ready = True 
             bullet.hideturtle()
-            bullet.goto(-1000,0)
+            a.goto(-1000,0)
             scoreboard.add_one_to_score()
             score += 1
             print("COLLISION WITH BULLET score: ", score)

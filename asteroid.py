@@ -23,17 +23,9 @@ class Asteroid(Turtle):
 
     def create_asteroids(self):
         for _ in range(NUMBER_OF_ASTEROIDS):  
-            new_asteroid = Turtle('circle')
-            new_asteroid.shapesize(4,4)
-            new_asteroid.penup()
-            new_asteroid.color('white')
-            new_asteroid.dy = 3
-            new_asteroid.dx = 3
-            random_y = randint(-280, 280)
-            random_x = randint(-380, 380)
-            new_asteroid.goto(random_x,random_y)
-            self.asteroids.append(new_asteroid)
+            self.add_one_asteroid()
            
+    
 
 
     def move_asteroids(self):
@@ -42,9 +34,21 @@ class Asteroid(Turtle):
             new_x = asteroid.xcor() + asteroid.dx
             asteroid.goto(new_x,new_y)
             
-           
+    def add_one_asteroid(self):
+        new_asteroid = Turtle('circle')
+        new_asteroid.shapesize(4,4)
+        new_asteroid.penup()
+        new_asteroid.color('white')
+        new_asteroid.dy = 3
+        new_asteroid.dx = 3
+        random_y = randint(-280, 280)
+        random_x = randint(-380, 380)
+        new_asteroid.goto(random_x,random_y)
+        self.asteroids.append(new_asteroid)
 
     
+    
+
     def bounce_y(self):
         for asteroid in self.asteroids:
             if asteroid.ycor() > 280 or asteroid.ycor() < -280:
@@ -58,6 +62,6 @@ class Asteroid(Turtle):
     def get_poistion(self):
         for asteroid in self.asteroids:
             print(asteroid.position)
-    
-   
-        
+
+    def move_off_screen(self):
+        pass
