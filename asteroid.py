@@ -1,3 +1,4 @@
+from asteroid_manager import NUMBER_OF_ASTEROIDS
 from turtle import Turtle
 
 from random import randint
@@ -7,31 +8,56 @@ UP = 90
 DOWN = 270
 LEFT = 180
 RIGHT = 0
+STARTING_MOVE_DISTANCE = 5
+MOVE_INCREMENT = 10
+NUMBER_OF_ASTEROIDS = 3
 
 class Asteroid(Turtle):
     def __init__(self):
         super().__init__()
-        self.y_move = 3
-        self.x_move = 3
-        self.color('white')
-        self.shape('circle')        
-        self.setheading(RIGHT)
-        self.penup()
-        self.shapesize(4,4)
-        self.spawn_asteroid()
-
-    def spawn_asteroid(self):
-        random_x = randint(-280,280)
-        random_y = randint(-280,280)
-        self.goto(random_x,random_y)
+        self.asteroids = []
+        self.asteroid_speed = STARTING_MOVE_DISTANCE
+        self.create_asteroids()
+        self.hideturtle()
         
-    def move_asteroid(self):
-        new_y = self.ycor() + self.y_move
-        new_x = self.xcor() + self.x_move
-        self.goto(new_x,new_y)
+
+    def create_asteroids(self):
+        for _ in range(NUMBER_OF_ASTEROIDS):  
+            new_asteroid = Turtle('circle')
+            new_asteroid.shapesize(4,4)
+            new_asteroid.penup()
+            new_asteroid.color('white')
+            new_asteroid.dy = 3
+            new_asteroid.dx = 3
+            random_y = randint(-280, 280)
+            random_x = randint(-380, 380)
+            new_asteroid.goto(random_x,random_y)
+            self.asteroids.append(new_asteroid)
+           
+
+
+    def move_asteroids(self):
+        for asteroid in self.asteroids:
+            new_y = asteroid.ycor() + asteroid.dy
+            new_x = asteroid.xcor() + asteroid.dx
+            asteroid.goto(new_x,new_y)
+            
+           
+
     
     def bounce_y(self):
-        self.y_move *= -1
+        for asteroid in self.asteroids:
+            if asteroid.ycor() > 280 or asteroid.ycor() < -280:
+                asteroid.dy *= - 1
 
     def bounce_x(self):
-        self.x_move *= -1
+        for asteroid in self.asteroids:
+            if asteroid.xcor() > 380 or asteroid.xcor() < -380:
+                asteroid.dx *= -1
+
+    def get_poistion(self):
+        for asteroid in self.asteroids:
+            print(asteroid.position)
+    
+   
+        
