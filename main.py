@@ -27,6 +27,7 @@ spaceship = Spaceship()
 #Instantiant the Asteroid
 asteroid = Asteroid()
 
+
 #Instantiant the Scoreboard
 scoreboard = Scoreboard()
 
@@ -37,6 +38,12 @@ bullet = Bullet()
 
 bullet_is_ready = True
 direction = spaceship.heading()
+def setup_bullet():
+    #Move the bullet to be just above the player
+    x = spaceship.xcor()
+    y = spaceship.ycor()
+    bullet.setheading(spaceship.heading())
+    bullet.setposition(x,y)
 
 def fire_bullet():
     #declare bullet_is_ready and direaction  as a global incase it needs changing
@@ -45,12 +52,10 @@ def fire_bullet():
         bullet_is_ready = False
         direction = spaceship.heading()
         #Move the bullet to be just above the player
-        x = spaceship.xcor()
-        y = spaceship.ycor()
-        bullet.setheading(spaceship.heading())
-        bullet.setposition(x,y)
-        bullet.showturtle()         
- 
+        setup_bullet()
+        bullet.showturtle()
+
+
 
 #Create the keyboard bindings
 screen.listen()
@@ -66,13 +71,19 @@ screen.onkey(fire_bullet, 'space')
 game_is_on = True
 score = 0
 add_one_available = True
+
+
+setup_bullet()
+
 while game_is_on:
 
     sleep(.01)
     screen.update()
     #Move the Asteroid  
     asteroid.move_asteroids()
-   
+    
+    if bullet_is_ready:
+        setup_bullet()
 
     if score > 2 and score % 3 == 0 and add_one_available:
         for _ in range(3):
@@ -118,7 +129,8 @@ while game_is_on:
     
     
 
-    
+
+ 
 
     # Detect Asteroid Collision with top and bottom walls
     asteroid.bounce_y()
@@ -126,19 +138,22 @@ while game_is_on:
     # Detect Asteroid Collision with left and  walls
     asteroid.bounce_x()
 
-   
+    #Detect if collision and makes asteroids bounce against themselves
+    
 
-    for a in asteroid.asteroids:
-        
+
+    for a in asteroid.asteroids:        
         # Detect Collision with Spaceship and Asteroid
         if spaceship.distance(a) < 35:
             print("COLLISION")
             # game_is_on = False
         # Detect Collision with Bullet and Asteroid
-        if bullet.distance(a) < 30:
-            bullet_is_ready = True 
+        if bullet.distance(a) < 30 and bullet.distance(spaceship) > 5:
+            setup_bullet()
             bullet.hideturtle()
-            a.goto(-1000,0)
+                    
+            bullet_is_ready = True 
+            a.goto(-10000,0)            
             scoreboard.add_one_to_score()
             score += 1
             print("COLLISION WITH BULLET score: ", score)

@@ -10,7 +10,7 @@ LEFT = 180
 RIGHT = 0
 STARTING_MOVE_DISTANCE = 5
 MOVE_INCREMENT = 10
-NUMBER_OF_ASTEROIDS = 3
+NUMBER_OF_ASTEROIDS = 5
 
 class Asteroid(Turtle):
     def __init__(self):
@@ -23,8 +23,7 @@ class Asteroid(Turtle):
 
     def create_asteroids(self):
         for _ in range(NUMBER_OF_ASTEROIDS):  
-            self.add_one_asteroid()
-           
+            self.add_one_asteroid()      
     
 
 
@@ -59,9 +58,18 @@ class Asteroid(Turtle):
             if asteroid.xcor() > 380 or asteroid.xcor() < -380:
                 asteroid.dx *= -1
 
-    def get_poistion(self):
-        for asteroid in self.asteroids:
-            print(asteroid.position)
+    def get_list_of_asteroids(self):
+        return self.asteroids
 
-    def move_off_screen(self):
-        pass
+    def asteroids_collision(self):
+        for index, this in enumerate(self.asteroids):
+            for that in self.asteroids[index+1:]:
+                print(this, that)
+
+
+    
+
+
+    
+
+    
