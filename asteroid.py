@@ -32,6 +32,7 @@ class Asteroid(Turtle):
             new_y = asteroid.ycor() + asteroid.dy
             new_x = asteroid.xcor() + asteroid.dx
             asteroid.goto(new_x,new_y)
+    
             
     def add_one_asteroid(self):
         new_asteroid = Turtle('circle')
@@ -40,8 +41,14 @@ class Asteroid(Turtle):
         new_asteroid.color('white')
         new_asteroid.dy = 3
         new_asteroid.dx = 3
-        random_y = randint(-280, 280)
-        random_x = randint(-380, 380)
+        # Logic so the asteroids won't spawn on top of the ship
+        random_y_top = randint(100, 280)
+        random_y_bottom = randint(-280, -100)
+        random_x_left = randint(-380, -100)
+        random_x_right = randint(100, 380)
+        random_x = [random_x_left, random_x_right][randint(0,1)]
+        random_y = [random_y_top, random_y_bottom][randint(0,1)]
+        
         new_asteroid.goto(random_x,random_y)
         self.asteroids.append(new_asteroid)
 

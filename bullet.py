@@ -11,7 +11,6 @@ class Bullet(Turtle):
         self.speed(0)
         self.shapesize(0.5, 0.5)
 
-
     
 
 

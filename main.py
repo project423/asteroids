@@ -146,6 +146,8 @@ while game_is_on:
         # Detect Collision with Spaceship and Asteroid
         if spaceship.distance(a) < 35:
             print("COLLISION")
+            scoreboard.reset()
+            
             # game_is_on = False
         # Detect Collision with Bullet and Asteroid
         if bullet.distance(a) < 30 and bullet.distance(spaceship) > 5:
